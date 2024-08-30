@@ -31,7 +31,8 @@ const Home = () => {
         height="100%"
         controls={controls}
         playing={true}
-        onPlay={() => setControls(false)}
+        onReady={() => setControls(false)}
+        // onPlay={() => setControls(false)}
         loop
       />
     </Wrapper>
