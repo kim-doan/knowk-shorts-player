@@ -1,7 +1,7 @@
 import setScreenHeight from "@/core/utils/setScreenHeight";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 
 const ReactPlayer = dynamic(() => import("react-player/lazy"), {
@@ -11,6 +11,8 @@ const ReactPlayer = dynamic(() => import("react-player/lazy"), {
 const Home = () => {
   const router = useRouter();
 
+  const [muted, setMuted] = useState(true);
+
   useEffect(() => {
     setScreenHeight();
 
@@ -18,7 +20,7 @@ const Home = () => {
     return () => window.removeEventListener("resize", setScreenHeight);
   }, []);
 
-  const videoUrl = router.query.videoUrl;
+  const videoUrl = router.query.url;
 
   return (
     <Wrapper>
@@ -26,10 +28,12 @@ const Home = () => {
         url={videoUrl}
         width="100%"
         height="100%"
-        muted={true}
-        controls={true}
+        muted={muted}
+        controls={false}
         playing={true}
+        playsinline
         pip={false}
+        volume={0.5}
         loop
       />
     </Wrapper>
