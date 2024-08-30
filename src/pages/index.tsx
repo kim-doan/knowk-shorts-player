@@ -10,7 +10,6 @@ const ReactPlayer = dynamic(() => import("react-player/lazy"), {
 
 const Home = () => {
   const router = useRouter();
-  const [controls, setControls] = useState(true);
 
   useEffect(() => {
     setScreenHeight();
@@ -19,9 +18,7 @@ const Home = () => {
     return () => window.removeEventListener("resize", setScreenHeight);
   }, []);
 
-  const videoUrl = router.query.url as string;
-
-  console.log(videoUrl);
+  const videoUrl = router.query.videoUrl;
 
   return (
     <Wrapper>
@@ -29,10 +26,9 @@ const Home = () => {
         url={videoUrl}
         width="100%"
         height="100%"
-        controls={controls}
+        controls={true}
         playing={true}
-        onReady={() => setControls(false)}
-        // onPlay={() => setControls(false)}
+        pip={false}
         loop
       />
     </Wrapper>
