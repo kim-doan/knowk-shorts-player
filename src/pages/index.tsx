@@ -26,6 +26,7 @@ const Home = () => {
         url={videoUrl}
         width="100%"
         height="100%"
+        muted={true}
         controls={true}
         playing={true}
         pip={false}
