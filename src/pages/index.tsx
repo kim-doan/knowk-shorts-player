@@ -37,7 +37,7 @@ const Home = () => {
         height="100%"
         muted={muted}
         controls={false}
-        playing={true}
+        playing={isPlaying}
         playsinline
         pip={false}
         volume={0.5}
