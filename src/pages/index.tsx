@@ -12,6 +12,13 @@ const Home = () => {
   const router = useRouter();
 
   const [muted, setMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  useEffect(() => {
+    window["AndroidBridge"].shortsPlay = (play: boolean) => {
+      setIsPlaying(play);
+    };
+  }, []);
 
   useEffect(() => {
     setScreenHeight();
