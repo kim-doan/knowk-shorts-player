@@ -19,6 +19,11 @@ const Home = () => {
     window.shortsPlay = (play: boolean) => {
       setIsPlaying(play);
     };
+
+    // @ts-ignore
+    window.mute = (mute: boolean) => {
+      setMuted(mute);
+    };
   }, []);
 
   useEffect(() => {
