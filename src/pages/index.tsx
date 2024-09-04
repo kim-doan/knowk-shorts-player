@@ -15,7 +15,8 @@ const Home = () => {
   const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
-    window["AndroidBridge"].shortsPlay = (play: boolean) => {
+    // @ts-ignore
+    window.shortsPlay = (play: boolean) => {
       setIsPlaying(play);
     };
   }, []);
