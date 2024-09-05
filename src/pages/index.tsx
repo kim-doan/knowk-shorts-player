@@ -1,30 +1,29 @@
 import setScreenHeight from "@/core/utils/setScreenHeight";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import ReactPlayer from "react-player";
+import { OnProgressProps } from "react-player/base";
 import { styled } from "styled-components";
 
-const ReactPlayer = dynamic(() => import("react-player/lazy"), {
+const ReactPlayerComponent = dynamic(() => import("react-player/lazy"), {
   ssr: false,
 });
 
 const Home = () => {
   const router = useRouter();
 
-  const [muted, setMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [player, setPlayer] = useState<ReactPlayer | null>(null);
+  const [muted, setMuted] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
-    // @ts-ignore
-    window.shortsPlay = (play: boolean) => {
-      setIsPlaying(play);
+    window.play = (play: boolean) => setPlaying(play);
+    window.mute = (mute: boolean) => setMuted(mute);
+    window.seekTo = (time: number) => {
+      player?.seekTo(time);
     };
-
-    // @ts-ignore
-    window.mute = (mute: boolean) => {
-      setMuted(mute);
-    };
-  }, []);
+  }, [player]);
 
   useEffect(() => {
     setScreenHeight();
@@ -35,19 +34,65 @@ const Home = () => {
 
   const videoUrl = router.query.url;
 
+  const handleReady = (player: ReactPlayer) => {
+    try {
+      setPlayer(player);
+      const userAgent = navigator.userAgent.toLowerCase();
+
+      const preparedVideoParam = {
+        result: true,
+        duration: player.getDuration(),
+      };
+
+      if (userAgent.indexOf("android") > -1) {
+        window.AndroidBridge.preparedVideo(preparedVideoParam);
+      } else if (
+        userAgent.indexOf("iphone") > -1 ||
+        userAgent.indexOf("ipad") > -1
+      ) {
+        window.webkit.messageHandlers.preparedVideo.postMessage(
+          preparedVideoParam
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleProgress = (state: OnProgressProps) => {
+    try {
+      setPlayer(player);
+      const userAgent = navigator.userAgent.toLowerCase();
+
+      if (userAgent.indexOf("android") > -1) {
+        window.AndroidBridge.seek(state);
+      } else if (
+        userAgent.indexOf("iphone") > -1 ||
+        userAgent.indexOf("ipad") > -1
+      ) {
+        window.webkit.messageHandlers.seek.postMessage(state);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Wrapper>
-      <ReactPlayer
+      <ReactPlayerComponent
         url={videoUrl}
         width="100%"
         height="100%"
         muted={muted}
         controls={false}
-        playing={isPlaying}
+        playing={playing}
         playsinline
+        progressInterval={3000}
         pip={false}
         volume={0.5}
         loop
+        onReady={handleReady}
+        onProgress={handleProgress}
       />
     </Wrapper>
   );
@@ -64,10 +109,4 @@ const Wrapper = styled.div`
     height: 100% !important;
     object-fit: cover;
   }
-`;
-
-const TestBox = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: red;
 `;
