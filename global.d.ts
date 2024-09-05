@@ -13,16 +13,16 @@ declare global {
 
   interface MessageHandlers {
     preparedVideo: {
-      postMessage: (state: PreparedVideoState) => void;
+      postMessage: (state: string) => void;
     };
     seek: {
-      postMessage: (state: SeekState) => void;
+      postMessage: (state: string) => void;
     };
   }
 
   interface AndroidBridge {
-    preparedVideo: (state: PreparedVideoState) => void;
-    seek: (state: SeekState) => void;
+    preparedVideo: (state: string) => void;
+    seek: (state: string) => void;
   }
 
   interface PreparedVideoState {

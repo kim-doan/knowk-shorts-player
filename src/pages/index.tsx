@@ -32,17 +32,17 @@ const Home = () => {
     return () => window.removeEventListener("resize", setScreenHeight);
   }, []);
 
-  const videoUrl = router.query.url;
+  const videoUrl = router.query.url as string;
 
   const handleReady = (player: ReactPlayer) => {
     try {
       setPlayer(player);
       const userAgent = navigator.userAgent.toLowerCase();
 
-      const preparedVideoParam = {
-        result: true,
+      const preparedVideoParam = JSON.stringify({
+        result: ReactPlayer.canPlay(videoUrl),
         duration: player.getDuration(),
-      };
+      });
 
       if (userAgent.indexOf("android") > -1) {
         window.AndroidBridge.preparedVideo(preparedVideoParam);
@@ -65,12 +65,12 @@ const Home = () => {
       const userAgent = navigator.userAgent.toLowerCase();
 
       if (userAgent.indexOf("android") > -1) {
-        window.AndroidBridge.seek(state);
+        window.AndroidBridge.seek(JSON.stringify(state));
       } else if (
         userAgent.indexOf("iphone") > -1 ||
         userAgent.indexOf("ipad") > -1
       ) {
-        window.webkit.messageHandlers.seek.postMessage(state);
+        window.webkit.messageHandlers.seek.postMessage(JSON.stringify(state));
       }
     } catch (error) {
       console.error(error);
