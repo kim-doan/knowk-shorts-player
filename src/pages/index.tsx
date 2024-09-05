@@ -16,6 +16,7 @@ const Home = () => {
   const [player, setPlayer] = useState<ReactPlayer | null>(null);
   const [muted, setMuted] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const [played, setPlayed] = useState(0);
 
   useEffect(() => {
     window.play = (play: boolean) => setPlaying(play);
@@ -61,7 +62,16 @@ const Home = () => {
 
   const handleProgress = (state: OnProgressProps) => {
     try {
+      if (state.played > 0.9) {
+        player.seekTo(0);
+        setTimeout(() => {
+          setPlaying(true);
+        }, 100);
+      }
+
       setPlayer(player);
+      setPlayed(state.played);
+
       const userAgent = navigator.userAgent.toLowerCase();
 
       if (userAgent.indexOf("android") > -1) {
@@ -87,10 +97,8 @@ const Home = () => {
         controls={false}
         playing={playing}
         playsinline
-        progressInterval={3000}
-        pip={false}
         volume={0.5}
-        loop
+        loop={true}
         onReady={handleReady}
         onProgress={handleProgress}
       />
