@@ -14,7 +14,7 @@ const Home = () => {
   const router = useRouter();
 
   const [player, setPlayer] = useState<ReactPlayer | null>(null);
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(true);
   const [played, setPlayed] = useState(0);
 
