@@ -19,8 +19,14 @@ const Home = () => {
   const [played, setPlayed] = useState(0);
 
   useEffect(() => {
-    window.play = (play: boolean) => setPlaying(play);
-    window.mute = (mute: boolean) => setMuted(mute);
+    window.play = (play: boolean) => {
+      setPlaying(play);
+      console.log(`play: ${play}`);
+    };
+    window.mute = (mute: boolean) => {
+      setMuted(mute);
+      console.log(`mute: ${mute}`);
+    };
     window.seekTo = (time: number) => {
       player?.seekTo(time);
     };
