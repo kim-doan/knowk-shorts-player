@@ -15,7 +15,7 @@ const Home = () => {
 
   const [player, setPlayer] = useState<ReactPlayer | null>(null);
   const [muted, setMuted] = useState(false);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const [played, setPlayed] = useState(0);
 
   useEffect(() => {
