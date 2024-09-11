@@ -4,7 +4,7 @@ declare global {
     AndroidBridge: AndroidBridge;
     play: (play: boolean) => void;
     mute: (mute: boolean) => void;
-    seekTo: (time: number) => void;
+    seekTo: (time: number, type?: "seconds" | "fraction") => void;
   }
 
   interface webkit {
