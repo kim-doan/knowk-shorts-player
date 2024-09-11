@@ -27,8 +27,8 @@ const Home = () => {
       setMuted(mute);
       console.log(`mute: ${mute}`);
     };
-    window.seekTo = (time: number) => {
-      player?.seekTo(time);
+    window.seekTo = (time: number, type?: "seconds" | "fraction") => {
+      player?.seekTo(time, type);
     };
   }, [player]);
 
@@ -68,13 +68,6 @@ const Home = () => {
 
   const handleProgress = (state: OnProgressProps) => {
     try {
-      if (state.played > 0.9) {
-        player.seekTo(0);
-        setTimeout(() => {
-          setPlaying(true);
-        }, 100);
-      }
-
       setPlayer(player);
       setPlayed(state.played);
 
