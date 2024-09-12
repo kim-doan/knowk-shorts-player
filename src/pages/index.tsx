@@ -30,6 +30,7 @@ const Home = () => {
     window.seekTo = (time: number, type?: "seconds" | "fraction") => {
       player?.seekTo(time, type);
     };
+    window.getCurrentTime = () => player.getCurrentTime();
   }, [player]);
 
   useEffect(() => {
@@ -115,5 +116,12 @@ const Wrapper = styled.div`
     width: 100% !important;
     height: 100% !important;
     object-fit: cover;
+  }
+
+  button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 `;
