@@ -5,6 +5,7 @@ declare global {
     play: (play: boolean) => void;
     mute: (mute: boolean) => void;
     seekTo: (time: number, type?: "seconds" | "fraction") => void;
+    getCurrentTime: () => number;
   }
 
   interface webkit {
