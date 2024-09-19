@@ -19,11 +19,15 @@ declare global {
     seek: {
       postMessage: (state: string) => void;
     };
+    progressTime: {
+      progressTime: (currentTime: number) => void;
+    };
   }
 
   interface AndroidBridge {
     preparedVideo: (state: string) => void;
     seek: (state: string) => void;
+    progressTime: (currentTime: number) => void;
   }
 
   interface PreparedVideoState {

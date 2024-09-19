@@ -19,6 +19,13 @@ const Home = () => {
   const [played, setPlayed] = useState(0);
 
   useEffect(() => {
+    setScreenHeight();
+
+    window.addEventListener("resize", setScreenHeight);
+    return () => window.removeEventListener("resize", setScreenHeight);
+  }, []);
+
+  useEffect(() => {
     window.play = (play: boolean) => {
       setPlaying(play);
       console.log(`play: ${play}`);
@@ -34,11 +41,24 @@ const Home = () => {
   }, [player]);
 
   useEffect(() => {
-    setScreenHeight();
+    const timer = setInterval(() => {
+      if (!player || !playing) return;
+      const userAgent = navigator.userAgent.toLowerCase();
 
-    window.addEventListener("resize", setScreenHeight);
-    return () => window.removeEventListener("resize", setScreenHeight);
-  }, []);
+      if (userAgent.indexOf("android") > -1) {
+        window.AndroidBridge.progressTime(player.getCurrentTime());
+      } else if (
+        userAgent.indexOf("iphone") > -1 ||
+        userAgent.indexOf("ipad") > -1
+      ) {
+        window.webkit.messageHandlers.progressTime.postMessage(
+          player.getCurrentTime()
+        );
+      }
+    }, 100);
+
+    return () => clearInterval(timer);
+  }, [player, playing]);
 
   const videoUrl = router.query.url as string;
 
@@ -101,6 +121,7 @@ const Home = () => {
         loop={true}
         onReady={handleReady}
         onProgress={handleProgress}
+        onPlay={() => console.log("play")}
       />
     </Wrapper>
   );
