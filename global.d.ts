@@ -20,7 +20,7 @@ declare global {
       postMessage: (state: string) => void;
     };
     progressTime: {
-      progressTime: (currentTime: number) => void;
+      postMessage: (currentTime: number) => void;
     };
   }
 
