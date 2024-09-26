@@ -22,12 +22,20 @@ declare global {
     progressTime: {
       postMessage: (currentTime: number) => void;
     };
+    changedStatus: {
+      postMessage: (
+        state: "onPlay" | "onStart" | "onPause" | "onError"
+      ) => void;
+    };
   }
 
   interface AndroidBridge {
     preparedVideo: (state: string) => void;
     seek: (state: string) => void;
     progressTime: (currentTime: number) => void;
+    changedStatus: (
+      state: "onPlay" | "onStart" | "onPause" | "onError"
+    ) => void;
   }
 
   interface PreparedVideoState {

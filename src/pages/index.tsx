@@ -87,6 +87,45 @@ const Home = () => {
     }
   };
 
+  const handlePlay = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    if (userAgent.indexOf("android") > -1) {
+      window.AndroidBridge.changedStatus("onPlay");
+    } else if (
+      userAgent.indexOf("iphone") > -1 ||
+      userAgent.indexOf("ipad") > -1
+    ) {
+      window.webkit.messageHandlers.changedStatus.postMessage("onPlay");
+    }
+  };
+
+  const handlePause = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    if (userAgent.indexOf("android") > -1) {
+      window.AndroidBridge.changedStatus("onPause");
+    } else if (
+      userAgent.indexOf("iphone") > -1 ||
+      userAgent.indexOf("ipad") > -1
+    ) {
+      window.webkit.messageHandlers.changedStatus.postMessage("onPause");
+    }
+  };
+
+  const handleStart = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    if (userAgent.indexOf("android") > -1) {
+      window.AndroidBridge.changedStatus("onStart");
+    } else if (
+      userAgent.indexOf("iphone") > -1 ||
+      userAgent.indexOf("ipad") > -1
+    ) {
+      window.webkit.messageHandlers.changedStatus.postMessage("onStart");
+    }
+  };
+
   const handleProgress = (state: OnProgressProps) => {
     try {
       setPlayer(player);
@@ -107,6 +146,19 @@ const Home = () => {
     }
   };
 
+  const handleError = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    if (userAgent.indexOf("android") > -1) {
+      window.AndroidBridge.changedStatus("onError");
+    } else if (
+      userAgent.indexOf("iphone") > -1 ||
+      userAgent.indexOf("ipad") > -1
+    ) {
+      window.webkit.messageHandlers.changedStatus.postMessage("onError");
+    }
+  };
+
   return (
     <Wrapper>
       <ReactPlayerComponent
@@ -120,8 +172,11 @@ const Home = () => {
         volume={0.5}
         loop={true}
         onReady={handleReady}
+        onPlay={handlePlay}
+        onStart={handleStart}
+        onPause={handlePause}
+        onError={handleError}
         onProgress={handleProgress}
-        onPlay={() => console.log("play")}
       />
     </Wrapper>
   );
