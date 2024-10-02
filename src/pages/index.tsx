@@ -15,8 +15,9 @@ const Home = () => {
 
   const [player, setPlayer] = useState<ReactPlayer | null>(null);
   const [muted, setMuted] = useState(false);
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const [played, setPlayed] = useState(0);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     setScreenHeight();
@@ -42,7 +43,8 @@ const Home = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      if (!player || !playing) return;
+      if (!player || !playing || error) return;
+
       const userAgent = navigator.userAgent.toLowerCase();
 
       if (userAgent.indexOf("android") > -1) {
@@ -157,6 +159,8 @@ const Home = () => {
     ) {
       window.webkit.messageHandlers.changedStatus.postMessage("onError");
     }
+
+    setError(true);
   };
 
   return (
