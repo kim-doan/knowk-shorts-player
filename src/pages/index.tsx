@@ -53,7 +53,7 @@ const Home = () => {
         userAgent.indexOf("iphone") > -1 ||
         userAgent.indexOf("ipad") > -1
       ) {
-        window.webkit.messageHandlers.progressTime.postMessage(
+        window.webkit?.messageHandlers.progressTime.postMessage(
           player.getCurrentTime()
         );
       }
@@ -80,7 +80,7 @@ const Home = () => {
         userAgent.indexOf("iphone") > -1 ||
         userAgent.indexOf("ipad") > -1
       ) {
-        window.webkit.messageHandlers.preparedVideo.postMessage(
+        window.webkit?.messageHandlers.preparedVideo.postMessage(
           preparedVideoParam
         );
       }
@@ -98,7 +98,7 @@ const Home = () => {
       userAgent.indexOf("iphone") > -1 ||
       userAgent.indexOf("ipad") > -1
     ) {
-      window.webkit.messageHandlers.changedStatus.postMessage("onPlay");
+      window.webkit?.messageHandlers.changedStatus.postMessage("onPlay");
     }
   };
 
@@ -111,7 +111,7 @@ const Home = () => {
       userAgent.indexOf("iphone") > -1 ||
       userAgent.indexOf("ipad") > -1
     ) {
-      window.webkit.messageHandlers.changedStatus.postMessage("onPause");
+      window.webkit?.messageHandlers.changedStatus.postMessage("onPause");
     }
   };
 
@@ -124,7 +124,7 @@ const Home = () => {
       userAgent.indexOf("iphone") > -1 ||
       userAgent.indexOf("ipad") > -1
     ) {
-      window.webkit.messageHandlers.changedStatus.postMessage("onStart");
+      window.webkit?.messageHandlers.changedStatus.postMessage("onStart");
     }
   };
 
@@ -141,7 +141,7 @@ const Home = () => {
         userAgent.indexOf("iphone") > -1 ||
         userAgent.indexOf("ipad") > -1
       ) {
-        window.webkit.messageHandlers.seek.postMessage(JSON.stringify(state));
+        window.webkit?.messageHandlers.seek.postMessage(JSON.stringify(state));
       }
     } catch (error) {
       console.error(error);
@@ -157,7 +157,7 @@ const Home = () => {
       userAgent.indexOf("iphone") > -1 ||
       userAgent.indexOf("ipad") > -1
     ) {
-      window.webkit.messageHandlers.changedStatus.postMessage("onError");
+      window.webkit?.messageHandlers.changedStatus.postMessage("onError");
     }
 
     setError(true);
@@ -172,7 +172,7 @@ const Home = () => {
       userAgent.indexOf("iphone") > -1 ||
       userAgent.indexOf("ipad") > -1
     ) {
-      window.webkit.messageHandlers.changedStatus.postMessage("onBuffer");
+      window.webkit?.messageHandlers.changedStatus.postMessage("onBuffer");
     }
   };
 
@@ -185,7 +185,7 @@ const Home = () => {
       userAgent.indexOf("iphone") > -1 ||
       userAgent.indexOf("ipad") > -1
     ) {
-      window.webkit.messageHandlers.changedStatus.postMessage("onBufferEnd");
+      window.webkit?.messageHandlers.changedStatus.postMessage("onBufferEnd");
     }
   };
 
