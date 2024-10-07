@@ -121,8 +121,8 @@ const Home = () => {
     if (userAgent.indexOf("android") > -1) {
       window.AndroidBridge.changedStatus("onStart");
     } else if (
-      userAgent.indexOf("iphone") > -1 ||
-      userAgent.indexOf("ipad") > -1
+      userAgent.indexOf("mac") == -1 &&
+      (userAgent.indexOf("iphone") > -1 || userAgent.indexOf("ipad") > -1)
     ) {
       window.webkit.messageHandlers.changedStatus.postMessage("onStart");
     }
@@ -138,8 +138,8 @@ const Home = () => {
       if (userAgent.indexOf("android") > -1) {
         window.AndroidBridge.seek(JSON.stringify(state));
       } else if (
-        userAgent.indexOf("iphone") > -1 ||
-        userAgent.indexOf("ipad") > -1
+        userAgent.indexOf("mac") == -1 &&
+        (userAgent.indexOf("iphone") > -1 || userAgent.indexOf("ipad") > -1)
       ) {
         window.webkit.messageHandlers.seek.postMessage(JSON.stringify(state));
       }
@@ -154,13 +154,39 @@ const Home = () => {
     if (userAgent.indexOf("android") > -1) {
       window.AndroidBridge.changedStatus("onError");
     } else if (
-      userAgent.indexOf("iphone") > -1 ||
-      userAgent.indexOf("ipad") > -1
+      userAgent.indexOf("mac") == -1 &&
+      (userAgent.indexOf("iphone") > -1 || userAgent.indexOf("ipad") > -1)
     ) {
       window.webkit.messageHandlers.changedStatus.postMessage("onError");
     }
 
     setError(true);
+  };
+
+  const handleBuffer = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    if (userAgent.indexOf("android") > -1) {
+      window.AndroidBridge.changedStatus("onBuffer");
+    } else if (
+      userAgent.indexOf("mac") == -1 &&
+      (userAgent.indexOf("iphone") > -1 || userAgent.indexOf("ipad") > -1)
+    ) {
+      window.webkit.messageHandlers.changedStatus.postMessage("onBuffer");
+    }
+  };
+
+  const handleBufferEnd = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    if (userAgent.indexOf("android") > -1) {
+      window.AndroidBridge.changedStatus("onBufferEnd");
+    } else if (
+      userAgent.indexOf("mac") == -1 &&
+      (userAgent.indexOf("iphone") > -1 || userAgent.indexOf("ipad") > -1)
+    ) {
+      window.webkit.messageHandlers.changedStatus.postMessage("onBufferEnd");
+    }
   };
 
   return (
@@ -181,6 +207,8 @@ const Home = () => {
         onPause={handlePause}
         onError={handleError}
         onProgress={handleProgress}
+        onBuffer={handleBuffer}
+        onBufferEnd={handleBufferEnd}
       />
     </Wrapper>
   );

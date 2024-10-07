@@ -24,7 +24,13 @@ declare global {
     };
     changedStatus: {
       postMessage: (
-        state: "onPlay" | "onStart" | "onPause" | "onError"
+        state:
+          | "onPlay"
+          | "onStart"
+          | "onPause"
+          | "onError"
+          | "onBuffer"
+          | "onBufferEnd"
       ) => void;
     };
   }
@@ -34,7 +40,13 @@ declare global {
     seek: (state: string) => void;
     progressTime: (currentTime: number) => void;
     changedStatus: (
-      state: "onPlay" | "onStart" | "onPause" | "onError"
+      state:
+        | "onPlay"
+        | "onStart"
+        | "onPause"
+        | "onError"
+        | "onBuffer"
+        | "onBufferEnd"
     ) => void;
   }
 
