@@ -42,8 +42,12 @@ const Home = () => {
   }, [player]);
 
   useEffect(() => {
+    console.log("didMount call");
     const timer = setInterval(() => {
-      if (!player || !playing || error) return;
+      if (!player || !playing || error) {
+        console.log("stop Interval");
+        return;
+      }
 
       const userAgent = navigator.userAgent.toLowerCase();
 
@@ -129,23 +133,8 @@ const Home = () => {
   };
 
   const handleProgress = (state: OnProgressProps) => {
-    try {
-      setPlayer(player);
-      setPlayed(state.played);
-
-      const userAgent = navigator.userAgent.toLowerCase();
-
-      if (userAgent.indexOf("android") > -1) {
-        window.AndroidBridge.seek(JSON.stringify(state));
-      } else if (
-        userAgent.indexOf("iphone") > -1 ||
-        userAgent.indexOf("ipad") > -1
-      ) {
-        window.webkit?.messageHandlers.seek.postMessage(JSON.stringify(state));
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    setPlayer(player);
+    setPlayed(state.played);
   };
 
   const handleError = () => {
