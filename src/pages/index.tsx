@@ -42,10 +42,8 @@ const Home = () => {
   }, [player]);
 
   useEffect(() => {
-    console.log("didMount call");
     const timer = setInterval(() => {
       if (!player || !playing || error) {
-        console.log("stop Interval");
         return;
       }
 
@@ -64,7 +62,7 @@ const Home = () => {
     }, 100);
 
     return () => clearInterval(timer);
-  }, [player, playing]);
+  }, [player, playing, error]);
 
   const videoUrl = router.query.url as string;
 
